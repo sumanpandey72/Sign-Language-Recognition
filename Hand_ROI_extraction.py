@@ -43,13 +43,10 @@ while True:
         (x, y, w, h) = cv2.boundingRect(contour) 
         # make rectangle arround the moving object 
         #cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 3)
-        time.sleep(1)
+        time.sleep(0.2)
         cv2.imwrite("1.png",frame)
 
-    cv2.imshow("Threshold Frame", thresh_frame) 
-    
     cv2.imshow("Color Frame", frame) 
-    cv2.imshow("roi",ROI)
     
     key = cv2.waitKey(1) 
     
