@@ -1,5 +1,7 @@
 import cv2
 import time
+from keras.models import model_from_json
+import numpy as np
 
 static_back = None
 
@@ -7,6 +9,15 @@ upper_left = (350, 50)
 bottom_right = (600, 350)
     
 video = cv2.VideoCapture(0) 
+
+# load the model
+json_file = open('model.json', 'r')
+model_json = json_file.read()
+json_file.close()
+model = model_from_json(model_json)
+model.load_weights("model_weights_1.h5")
+
+pred_list = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y']
 
 while True: 
     check, frame = video.read() 
@@ -48,6 +59,12 @@ while True:
         gray = cv2.cvtColor(ROI, cv2.COLOR_BGR2GRAY)
         resized = cv2.resize(gray, (28,28), interpolation = cv2.INTER_CUBIC)
         cv2.imwrite("Output.png",resized)
+
+        # predict the model
+        keras_model= model.predict(resized[np.newaxis, :, :, np.newaxis])
+        pred = np.argmax(keras_model)
+        print(pred)
+        print(pred_list[pred+1])
 
     cv2.imshow("Test", frame) 
     
