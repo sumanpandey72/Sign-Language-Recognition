@@ -64,7 +64,7 @@ def gray_live_video():
         thresh_ROI = cv2.dilate(thresh_ROI, None, iterations = 2) 
 
         cnts,_ = cv2.findContours(thresh_ROI.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-
+        
         for contour in cnts: 
             if cv2.contourArea(contour) < 10000: 
                 continue
@@ -76,13 +76,14 @@ def gray_live_video():
             #save image
             gray = cv2.cvtColor(ROI, cv2.COLOR_BGR2GRAY)
             resized = cv2.resize(gray, (28,28), interpolation = cv2.INTER_CUBIC)
-            cv2.imwrite("Output.png",resized)
+            #cv2.imwrite("Output.png",resized)
 
             # predict the model
             keras_model= model.predict(resized[np.newaxis, :, :, np.newaxis])
             pred = np.argmax(keras_model)
-            prediction(pred)
-            
+            print(pred_list[pred+1])
+            tk.Label(window,text=pred_list[pred+1],font=(None, 40)).grid(row=3,column=0)
+          
         return frame
 
 
@@ -91,11 +92,11 @@ def show_frame():
     imgtk = ImageTk.PhotoImage(image=img)
     lmain.imgtk = imgtk
     lmain.configure(image=imgtk)
-    lmain.after(10, show_frame) 
+    lmain.after(10, show_frame)  
 
 
-tk.Label(window,text=prediction(),font=(None, 40)).grid(row=2,column=0)
-tk.Label(window,text="Place Holder for results",font=(None, 40)).grid(row=3,column=0)
+tk.Label(window,text="Results",font=(None, 40)).grid(row=2,column=0)
+#tk.Label(window,text=letter,font=(None, 40)).grid(row=3,column=0)
 
 show_frame() 
 #canvas.pack()
