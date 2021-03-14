@@ -63,10 +63,11 @@ while True:
         # predict the model
         keras_model= model.predict(resized[np.newaxis, :, :, np.newaxis])
         pred = np.argmax(keras_model)
-        print(pred)
+        #print(pred)
         print(pred_list[pred+1])
 
     cv2.imshow("Test", frame) 
+    cv2.imshow("Thresh", thresh_ROI)
     
     key = cv2.waitKey(1) 
     
