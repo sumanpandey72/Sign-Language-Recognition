@@ -9,3 +9,5 @@ for i in range (0,25):
     df_new = df.loc[df['label'] == i]
     filename = str(alpha[i])+".csv"
     df_new.to_csv(filename, index = False)
+
+
